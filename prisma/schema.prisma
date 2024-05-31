@@ -27,4 +27,5 @@ model Person {
   firstname String
   lastname  String
   phone     String
+  date_of_birth DateTime @default(dbgenerated("NOW()"))
 }

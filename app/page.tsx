@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Layout from '../app/layout';
@@ -124,7 +126,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Layout>
       <AppBar position="static">
         <Toolbar>
@@ -155,6 +157,7 @@ const HomePage: React.FC = () => {
       </Container>
       <Footer/>
     </Layout>
+    </LocalizationProvider>
   );
 };
 
