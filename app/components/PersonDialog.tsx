@@ -63,7 +63,7 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
         format="DD / MM / YYYY"
         value={dayjs(currentPerson?.date_of_birth || "")} 
         onChange={(value) =>
-          setCurrentPerson((prev) => ({ ...prev!, date_of_birth: dayjs(value) }))
+          setCurrentPerson((prev) => ({ ...prev!, date_of_birth: String(dayjs(value)) }))
         }
       />
     </DialogContent>

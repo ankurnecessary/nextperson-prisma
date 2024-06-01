@@ -52,7 +52,7 @@ export async function PUT(request: Request, context: any) {
         firstname,
         lastname,
         phone,
-        date_of_birth
+        date_of_birth: new Date(date_of_birth).toISOString()
         // You can add other fields to update here
       },
     });
