@@ -1,6 +1,6 @@
 //'use client'
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogActions,
@@ -27,9 +27,11 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
   currentPerson,
   setCurrentPerson,
   handleSubmit,
-}) => (
+}) => {
+  const isAddMode:boolean = !!currentPerson?.id;
+  return (
   <Dialog open={open} onClose={handleClose}>
-    <DialogTitle>{currentPerson ? "Edit Person" : "Add Person"}</DialogTitle>
+    <DialogTitle>{isAddMode ? "Edit Person" : "Add Person"}</DialogTitle>
     <DialogContent>
       <TextField
         autoFocus
@@ -59,12 +61,19 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
           setCurrentPerson((prev) => ({ ...prev!, phone: e.target.value }))
         }
       />
-      <DatePicker 
+      <DatePicker
+        slotProps={{
+          textField: {
+            error: false
+          },
+        }} 
         format="DD / MM / YYYY"
         value={dayjs(currentPerson?.date_of_birth || "")} 
+        disableFuture
         onChange={(value) =>
           setCurrentPerson((prev) => ({ ...prev!, date_of_birth: String(dayjs(value)) }))
         }
+        className="w-100 mt-8"
       />
     </DialogContent>
     <DialogActions>
@@ -72,10 +81,10 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
         Cancel
       </Button>
       <Button onClick={handleSubmit} color="primary">
-        {currentPerson ? "Update" : "Add"}
+        {isAddMode ? "Update" : "Add"}
       </Button>
     </DialogActions>
   </Dialog>
-);
+)};
 
 export default PersonDialog;
