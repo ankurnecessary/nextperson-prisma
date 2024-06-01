@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 firstname,
                 lastname,
                 phone,
-                date_of_birth
+                date_of_birth: new Date(date_of_birth).toISOString()
             }
         })
 
