@@ -4,5 +4,5 @@ export interface Person {
     firstname: string;
     lastname: string;
     phone: string;
-    date_of_birth: Dayjs;
+    date_of_birth: Date;
 }
