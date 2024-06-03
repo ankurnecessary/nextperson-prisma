@@ -1,10 +1,7 @@
 //create a get method that will take id from the context , search for the id from prisma
 //if found return the data record
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
+import { prisma } from '@/database';
 
 export async function GET(request: Request, context: any) {
   const { id } = context.params;
