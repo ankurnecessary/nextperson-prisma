@@ -71,7 +71,7 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
         value={dayjs(currentPerson?.date_of_birth || "")} 
         disableFuture
         onChange={(value) =>
-          setCurrentPerson((prev) => ({ ...prev!, date_of_birth: String(dayjs(value)) }))
+          setCurrentPerson((prev) => ({ ...prev!, date_of_birth: dayjs(value).toISOString() }))
         }
         className="w-100 mt-8"
       />
