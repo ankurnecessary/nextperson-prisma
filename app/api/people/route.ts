@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/database';
 
 export async function GET(req: NextRequest, res: NextResponse) {
-    const people = await prisma.person.findMany();
+    const people = await prisma.person.findMany({
+        include: {
+            country: true
+        }
+    });
     return new Response(JSON.stringify(people), {
         status: 200,
         headers: {
