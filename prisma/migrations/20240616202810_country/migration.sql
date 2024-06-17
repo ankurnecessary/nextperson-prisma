@@ -6,9 +6,6 @@ CREATE TABLE "Country" (
     CONSTRAINT "Country_pkey" PRIMARY KEY ("id")
 );
 
--- Inserting
-INSERT INTO "Country" ("name") VALUES ('Australia');
-
 -- AlterTable
 ALTER TABLE "Person" ADD COLUMN     "countryId" INTEGER DEFAULT 1,
 ALTER COLUMN "date_of_birth" SET DEFAULT NOW();

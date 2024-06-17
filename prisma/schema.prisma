@@ -21,8 +21,8 @@ model Person {
   lastname      String
   phone         String
   date_of_birth DateTime @default(dbgenerated("NOW()"))
-  Country       Country? @relation(fields: [countryId], references: [id])
-  countryId     Int? @default(1)
+  country       Country? @relation(fields: [countryId], references: [id])
+  countryId     Int?
 }
 
 model Country {
