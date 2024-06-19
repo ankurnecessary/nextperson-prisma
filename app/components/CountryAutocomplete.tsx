@@ -44,7 +44,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
         if (response.ok) {
           const data = await response.json();
           const isExisting = data.some(
-            (option:Country) => inputValue === option.name
+            (option: Country) => inputValue === option.name
           );
           if (inputValue !== "" && !isExisting) {
             data.push({
@@ -68,26 +68,44 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
     <Autocomplete
       className="w-100 mt-13"
       value={currentPerson?.country ?? null}
-      onChange={(event, newValue) => {
-        console.log("newValue: ", newValue);
+      onChange={async (event, newValue) => {
         if (typeof newValue === "string") {
           setCurrentPerson((prev) => ({
             ...prev!,
             country: { name: newValue },
           }));
         } else if (newValue?.inputValue) {
-
           // todo: write a fetch POST request to add a new country
+          let country:Country;
+          const saveCountryName = async () => {
+            try {
+              const response = await fetch("/api/country", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: newValue?.inputValue?.trim() || "" }),
+              });
+              if (response.ok) {
+                country = await response.json();
+              } else {
+                console.error("Error saving country name.");
+              }
+            } catch (error) {
+              console.error("Error saving country name:", error);
+            }
+          };
+
+          await saveCountryName();
 
           setCurrentPerson((prev) => ({
             ...prev!,
-            country: { name: newValue?.inputValue ?? "" },
+            country,
+            countryId: country.id
           }));
         } else {
           setCurrentPerson((prev) => ({
             ...prev!,
             country: { id: newValue?.id, name: newValue?.name ?? "" },
-            countryId: newValue?.id
+            countryId: newValue?.id,
           }));
         }
       }}
