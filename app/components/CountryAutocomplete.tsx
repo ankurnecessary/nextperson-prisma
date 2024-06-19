@@ -10,10 +10,12 @@ import { Person } from "../lib/person";
 import { Country } from "../lib/country";
 
 /*
-todo: 1. When the user does not select anything, nothing should show in the result list. DONE 
-todo: 2. The result list only shows when the user types in at least 1 character. 
-todo: 3. the result should be filtered based on "startWith" logic. eg when I type Melb, then, all others that doesn't startWith Melb should not show up 
-todo: 4. there's an API search each time (or via Server Action) each time the user enters data. The filtering should happen on server side, not on the client side.
+DONE: 1. When the user does not select anything, nothing should show in the result list. DONE 
+DONE: 2. The result list only shows when the user types in at least 1 character. DONE
+DONE: 3. the result should be filtered based on "startWith" logic. eg when I type Melb, then, all others that doesn't startWith Melb should not show up DONE
+DONE: 4. there's an API search each time (or via Server Action) each time the user enters data. The filtering should happen on server side, not on the client side. DONE
+TODO: 5. Add throttling in the server requests via country auto-complete.
+TODO: 6. Try to remove countryId field while adding or editing person. As we are already sending it in country key.
 */
 
 interface CountryAutocompleteProps {
@@ -75,7 +77,6 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
             country: { name: newValue },
           }));
         } else if (newValue?.inputValue) {
-          // todo: write a fetch POST request to add a new country
           let country:Country;
           const saveCountryName = async () => {
             try {
