@@ -33,7 +33,7 @@ export async function PUT(request: Request, context: any) {
   try {
 
     const body = await request.json();
-    const { firstname, lastname, phone, date_of_birth } = body;
+    const { firstname, lastname, phone, date_of_birth, country } = body;
 
     if (!firstname || !lastname || !phone) {
       return new Response('Missing required fields', {
@@ -49,8 +49,8 @@ export async function PUT(request: Request, context: any) {
         firstname,
         lastname,
         phone,
-        date_of_birth: new Date(date_of_birth).toISOString()
-        // You can add other fields to update here
+        date_of_birth: new Date(date_of_birth).toISOString(),
+        countryId: country.id || null
       },
     });
 
@@ -60,7 +60,8 @@ export async function PUT(request: Request, context: any) {
       });
     }
 
-    return new Response(JSON.stringify(updatedPerson), {
+    const response = {...updatedPerson, country}
+    return new Response(JSON.stringify(response), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
