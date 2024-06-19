@@ -86,7 +86,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
         } else {
           setCurrentPerson((prev) => ({
             ...prev!,
-            country: { name: newValue?.name ?? "" },
+            country: { id: newValue?.id, name: newValue?.name ?? "" },
           }));
         }
       }}
