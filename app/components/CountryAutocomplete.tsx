@@ -8,6 +8,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Person } from "../lib/person";
 import { Country } from "../lib/country";
+import CircularProgress from '@mui/material/CircularProgress';
 
 /*
 DONE: 1. When the user does not select anything, nothing should show in the result list. DONE 
@@ -32,6 +33,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
 }) => {
   const [options, setOptions] = useState<Country[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -39,7 +41,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
         setOptions([]);
         return;
       }
-
+      setLoading(true);
       try {
         const response = await fetch(
           "/api/country?" + new URLSearchParams({ searchTerm: inputValue })
@@ -62,6 +64,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
       } catch (error) {
         console.log("Error fetching country data:", error);
       }
+      setLoading(false);
     };
 
     fetchCountries();
@@ -151,7 +154,15 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => {
-        return <TextField {...params} label="Country" />;
+        return <TextField {...params} label="Country" InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }} />;
       }}
     />
   );
