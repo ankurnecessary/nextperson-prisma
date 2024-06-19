@@ -1,31 +1,32 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-
 //added the binaryTargets rhel so that it works with AWS Amplify 
 //native is for Windows OS 
 generator client {
-  provider = "prisma-client-js"
-    binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
-
-  //added directUrl for Vercel Neon 
-
+//added directUrl for Vercel Neon 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection which is required by Vercel Neon
-
 }
-
-
-
 
 model Person {
-  id        Int     @id @default(autoincrement())
-  firstname String
-  lastname  String
-  phone     String
+  id            Int      @id @default(autoincrement())
+  firstname     String
+  lastname      String
+  phone         String
   date_of_birth DateTime @default(dbgenerated("NOW()"))
+  country       Country? @relation(fields: [countryId], references: [id])
+  countryId     Int?
+}
+
+model Country {
+  id      Int      @id @default(autoincrement())
+  name    String
+  persons Person[]
 }

@@ -12,6 +12,7 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { Person } from "../lib/person";
+import CountryAutocomplete from "./CountryAutocomplete";
 
 interface PersonDialogProps {
   open: boolean;
@@ -75,6 +76,7 @@ const PersonDialog: React.FC<PersonDialogProps> = ({
         }
         className="w-100 mt-8"
       />
+      <CountryAutocomplete currentPerson={currentPerson} setCurrentPerson={setCurrentPerson} />
     </DialogContent>
     <DialogActions>
       <Button onClick={handleClose} color="primary">

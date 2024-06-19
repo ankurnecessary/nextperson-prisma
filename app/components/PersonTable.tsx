@@ -19,6 +19,7 @@ const PersonTable: React.FC<PersonTableProps> = ({ people, handleOpen, handleDel
           <TableCell>Last Name</TableCell>
           <TableCell>Phone</TableCell>
           <TableCell>Date of Birth</TableCell>
+          <TableCell>Country</TableCell>
           <TableCell>Actions</TableCell>
         </TableRow>
       </TableHead>
@@ -29,6 +30,7 @@ const PersonTable: React.FC<PersonTableProps> = ({ people, handleOpen, handleDel
             <TableCell>{person.lastname}</TableCell>
             <TableCell>{person.phone}</TableCell>
             <TableCell>{new Date(person.date_of_birth).toLocaleDateString()}</TableCell>
+            <TableCell>{person.country?.name || '-- NA --'}</TableCell>
             <TableCell>
               <Button onClick={() => handleOpen(person)}>Edit</Button>
               <Button onClick={() => handleDelete(person.id)}>Delete</Button>
