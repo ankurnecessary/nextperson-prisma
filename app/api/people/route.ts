@@ -5,6 +5,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const people = await prisma.person.findMany({
         include: {
             country: true
+        },
+        orderBy: {
+            id: 'asc'
         }
     });
     return new Response(JSON.stringify(people), {
