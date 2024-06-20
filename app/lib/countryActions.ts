@@ -3,10 +3,11 @@
 import { Country } from "./country";
 
 export async function fetchCountries(searchTerm: string): Promise<Country[]> {
-
   try {
     const response = await fetch(
-      `${ process.env.NEXT_PUBLIC_API_URL }/api/country?${new URLSearchParams({ searchTerm })}`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/country?${new URLSearchParams({
+        searchTerm,
+      })}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -21,11 +22,47 @@ export async function fetchCountries(searchTerm: string): Promise<Country[]> {
       }
       return data;
     } else {
-      console.log("Error fetching country data");
+      throw new Error("Error fetching country data");
     }
   } catch (error) {
-    console.log("Error fetching country data:", error);
-  }
+    console.log(`Error: ${error}`);
 
-  return [];
+    if (error instanceof Error) {
+      throw new Error(`Error fetching country data: ${error}`);
+    } else {
+      throw new Error(`Error fetching country data.`);
+    }
+  }
+}
+
+export async function saveCountryName(countryName: string): Promise<Country> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/country`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: countryName,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      const data: Promise<Country> = await response.json();
+      return data;
+    } else {
+      throw new Error(
+        `Something went wrong while saving country name: ${countryName}`
+      );
+    }
+  } catch (error) {
+    console.log(`Error: ${error}`);
+
+    if (error instanceof Error) {
+      throw new Error(`Failed to save country name: ${error.message}`);
+    } else {
+      throw new Error(`Failed to save country name.`);
+    }
+  }
 }

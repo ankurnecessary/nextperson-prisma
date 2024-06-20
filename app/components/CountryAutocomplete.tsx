@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { Person } from "../lib/person";
 import { Country } from "../lib/country";
 import CircularProgress from '@mui/material/CircularProgress';
-import { fetchCountries } from "../lib/countryActions";
+import { fetchCountries, saveCountryName } from "../lib/countryActions";
 
 /*
 DONE: 1. When the user does not select anything, nothing should show in the result list. DONE 
@@ -19,6 +19,7 @@ DONE: 5. Add throttling in the server requests via country auto-complete.
 DONE: 6. Add a loader in the country auto-complete.
 TODO: 7. Try to remove countryId field while adding or editing person. As we are already sending it in country key.
 DONE: 8: Convert the fetchCountries function in the useEffect() to server action function.
+DONE: 9: Convert save country function into server action function.
 */
 
 interface CountryAutocompleteProps {
@@ -66,27 +67,7 @@ const CountryAutocomplete: React.FC<CountryAutocompleteProps> = ({
             country: { name: newValue },
           }));
         } else if (newValue?.inputValue) {
-          let country: Country;
-          const saveCountryName = async () => {
-            try {
-              const response = await fetch("/api/country", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  name: newValue?.inputValue?.trim() || "",
-                }),
-              });
-              if (response.ok) {
-                country = await response.json();
-              } else {
-                console.error("Error saving country name.");
-              }
-            } catch (error) {
-              console.error("Error saving country name:", error);
-            }
-          };
-
-          await saveCountryName();
+          let country: Country = await saveCountryName(newValue?.inputValue?.trim());
 
           setCurrentPerson((prev) => ({
             ...prev!,
