@@ -34,11 +34,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 lastname,
                 phone,
                 date_of_birth: new Date(date_of_birth).toISOString(),
-                countryId: country.id
+                countryId: country?.id ?? null,
             }
         })
 
-        const response = {...person, country};
+        const response = { ...person, country: country ?? null};
         //return the data record
         return new Response(JSON.stringify(response), {
             status: 202,

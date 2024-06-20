@@ -50,7 +50,7 @@ export async function PUT(request: Request, context: any) {
         lastname,
         phone,
         date_of_birth: new Date(date_of_birth).toISOString(),
-        countryId: country.id || null
+        countryId: country?.id ?? null
       },
     });
 
@@ -60,7 +60,7 @@ export async function PUT(request: Request, context: any) {
       });
     }
 
-    const response = {...updatedPerson, country}
+    const response = {...updatedPerson, country: country ?? null}
     return new Response(JSON.stringify(response), {
       status: 200,
       headers: {
