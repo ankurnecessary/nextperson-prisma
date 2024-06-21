@@ -1,6 +1,29 @@
 "use server";
-
+import { prisma } from '@/database';
 import { Country } from "./country";
+
+/* export async function fetchCountries(searchTerm: string): Promise<Country[]> {
+  try {
+    const countries = await prisma.country.findMany({
+      where: {
+        name: {
+          startsWith: searchTerm ?? '',
+          mode: 'insensitive',
+        }
+      }
+    });
+    return countries;
+
+  } catch (error) {
+    console.log(`Error: ${error}`);
+
+    if (error instanceof Error) {
+      throw new Error(`Error fetching country data: ${error}`);
+    } else {
+      throw new Error(`Error fetching country data.`);
+    }
+  }
+}*/
 
 export async function fetchCountries(searchTerm: string): Promise<Country[]> {
   try {
@@ -37,6 +60,31 @@ export async function fetchCountries(searchTerm: string): Promise<Country[]> {
 
 export async function saveCountryName(countryName: string): Promise<Country> {
   try {
+
+    if(!countryName) {
+      throw new Error('Please mention a country name');
+    }
+
+    const country = await prisma.country.create({
+      data: {
+        name: countryName
+      }
+    })
+
+    return country;
+  } catch (error) {
+    console.log(`Error: ${error}`);
+
+    if (error instanceof Error) {
+      throw new Error(`Failed to save country name: ${error.message}`);
+    } else {
+      throw new Error(`Failed to save country name.`);
+    }
+  }
+}
+
+/*export async function saveCountryName(countryName: string): Promise<Country> {
+  try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/country`,
       {
@@ -65,4 +113,4 @@ export async function saveCountryName(countryName: string): Promise<Country> {
       throw new Error(`Failed to save country name.`);
     }
   }
-}
+}*/
